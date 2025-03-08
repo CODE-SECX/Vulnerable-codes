@@ -42,3 +42,23 @@ app.post('/upload', (req, res) => {
       res.send('Document saved');
     });
   });
+
+  const uploadFile = (file) => {
+    if (file.name.split('.').pop() === 'jpg' || file.name.split('.').pop() === 'png') {
+        console.log('Valid file type');
+        // Process file upload
+    } else {
+        console.log('Invalid file type');
+    }
+};
+
+
+app.post('/upload', (req, res) => {
+    if (req.file.mimetype === 'image/jpeg' || req.file.mimetype === 'application/pdf') {
+        console.log('Valid file type');
+        // Process file upload
+    } else {
+        console.log('Invalid file type');
+        res.status(400).send('Invalid file type');
+    }
+});
