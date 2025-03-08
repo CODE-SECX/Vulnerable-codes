@@ -20,13 +20,3 @@ const sql4 = `
   FROM users
   WHERE id = (${data.id})
 `;
-
-const sql5 = `SELECT * from table where name = 'safe'`;
-
-const regex = /(?s)(?:INSERT\s+INTO|DELETE\s+FROM|UPDATE\s+\w+\s+SET|SELECT\s+.*FROM)\s+.*\$\{[^}]+\}.*/;
-
-console.log(regex.test(sql1)); // true
-console.log(regex.test(sql2)); // true
-console.log(regex.test(sql3)); // true
-console.log(regex.test(sql4)); // true
-console.log(regex.test(sql5)); // false
