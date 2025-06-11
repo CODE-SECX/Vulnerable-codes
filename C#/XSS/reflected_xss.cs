@@ -87,6 +87,80 @@ public class VulnerableController : Controller
         ViewBag.TempMessage = TempData["message"]; // VULNERABLE - no encoding
         return View();
     }
+
+    // Additional Rule 11: Unencoded HTML content injection
+    public void TestHTMLContentInjection()
+    {
+        // Client-side JavaScript in ASP.NET page
+        Response.Write("<script>document.getElementById('content').innerHTML = '" + Request.QueryString["html"] + "';</script>"); // VULNERABLE
+        Response.Write("<script>document.write('" + Request.Form["content"] + "');</script>"); // VULNERABLE
+    }
+
+    // Additional Rule 12: JavaScript string direct injection
+    public void TestJavaScriptStringInjection()
+    {
+        Response.Write("<script>var message = '" + Request.QueryString["msg"] + "';</script>"); // VULNERABLE
+        ViewBag.JSData = Request.Form["data"];
+        // In view: <script>processData('@ViewBag.JSData');</script> // VULNERABLE
+    }
+
+    // Additional Rule 13: JavaScript event handler injection
+    public void TestEventHandlerInjection()
+    {
+        Response.Write("<button onclick='handleClick(\"" + Request.QueryString["param"] + "\")'>Click</button>"); // VULNERABLE
+        Response.Write("<img onerror='alert(\"" + Request.Form["error"] + "\")' src='invalid.jpg' />"); // VULNERABLE
+    }
+
+    // Additional Rule 14: URL parameter direct reflection
+    public void TestURLParameterReflection()
+    {
+        Response.Write(Request.QueryString["search"]); // VULNERABLE - direct reflection
+        Response.Write("You searched for: " + Request.Params["query"]); // VULNERABLE
+    }
+
+    // Additional Rule 15: URL redirect parameter reflection
+    public ActionResult TestURLRedirectReflection()
+    {
+        // Vulnerable redirect
+        Response.Redirect(Request.QueryString["returnUrl"]); // VULNERABLE
+        
+        // Vulnerable href
+        Response.Write("<a href='" + Request.QueryString["link"] + "'>Continue</a>"); // VULNERABLE
+        return View();
+    }
+
+    // Additional Rule 16: Error message user input display
+    public ActionResult TestErrorMessageDisplay()
+    {
+        ModelState.AddModelError("", "Invalid value provided: " + Request.Form["input"]); // VULNERABLE
+        
+        TempData["Error"] = "Error processing: " + Request.QueryString["data"]; // VULNERABLE
+        
+        try 
+        {
+            // Some operation
+        }
+        catch
+        {
+            throw new ArgumentException("Invalid parameter: " + Request.QueryString["param"]); // VULNERABLE
+        }
+        return View();
+    }
+
+    // Additional Rule 17: Error page parameter reflection
+    protected void Application_Error(object sender, EventArgs e)
+    {
+        Exception ex = Server.GetLastError();
+        Response.Write("Error occurred with input: " + Request.QueryString["input"]); // VULNERABLE
+        Response.Write("Failed processing: " + HttpContext.Request.Form["data"]); // VULNERABLE
+    }
+
+    // Additional Rule 18: HTML meta tag injection
+    public void TestMetaTagInjection()
+    {
+        Response.Write("<meta name='description' content='Search results for " + Request.QueryString["q"] + "' />"); // VULNERABLE
+        Response.Write("<meta property='og:title' content='" + Request.Form["title"] + "' />"); // VULNERABLE
+    }
 }
 
 // SECURE EXAMPLES FOR COMPARISON
