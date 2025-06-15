@@ -1,4 +1,4 @@
-## Authentication Vulnerability Rules:
+## 🛎️ Authentication Vulnerability Rules:
 
 ### Coverage Areas:
 
@@ -17,7 +17,7 @@
 
 
 
-## Authorization Vulnerability Rules:
+## 🛎️ Authorization Vulnerability Rules:
 
 ### Detection Rules Coverage:
 
@@ -33,7 +33,7 @@
 10. **Missing API Authorization** - Finds API endpoints without proper protection
 
 
-## Session Management Vulnerability Rules:
+## 🛎️ Session Management Vulnerability Rules:
 
 ### **High Severity Issues:**
 1. **Insecure Session Cookie Configuration** - Missing HttpOnly, Secure, SameSite flags
