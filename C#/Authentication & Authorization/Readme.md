@@ -1,3 +1,22 @@
+## Authentication Vulnerability Rules:
+
+### Coverage Areas:
+
+✅ **Authorization**: Missing attributes, bypasses, IDOR  
+✅ **Credentials**: Hardcoded, default, weak storage  
+✅ **JWT**: Weak keys, algorithm confusion, expiration  
+✅ **Session**: Fixation, insecure cookies  
+✅ **Cryptography**: Weak algorithms, poor randomness  
+✅ **Input Validation**: Missing validation, SQL injection  
+✅ **Brute Force**: Rate limiting, account lockout  
+✅ **Information Disclosure**: Error messages  
+✅ **CSRF**: Missing protection  
+✅ **MFA**: Missing requirements  
+✅ **Deserialization**: Unsafe deserialization  
+✅ **Timing Attacks**: Vulnerable comparisons  
+
+
+
 ## Authorization Vulnerability Rules:
 
 ### Detection Rules Coverage:
