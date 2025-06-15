@@ -1,6 +1,6 @@
 ## Authorization Vulnerability Rules:
 
-## Detection Rules Coverage:
+### Detection Rules Coverage:
 
 1. **Missing Authorization Attribute** - Detects methods without `[Authorize]` or `[AllowAnonymous]`
 2. **Hardcoded Authorization Bypass** - Finds hardcoded conditions that always grant access
