@@ -124,3 +124,17 @@
 14. **Key Material in Exception Messages** - Finds keys exposed in error messages/logs
 15. **Insecure Key Agreement Protocol** - Detects unauthenticated key agreement implementations
 
+# 🛎️ Path Traversal Vulnerabilities
+
+1. **File.ReadAllText** - Detects reading files with user input
+2. **File.ReadAllBytes** - Detects reading file bytes with user input  
+3. **File.WriteAllText** - Detects writing files with user input (Critical severity)
+4. **FileStream Constructor** - Detects FileStream creation with user input
+5. **Directory.GetFiles** - Detects directory listing with user input
+6. **Path.Combine** - Detects path combination with user input
+7. **File.Open** - Detects file opening with user input
+8. **File.Delete** - Detects file deletion with user input (Critical severity)
+9. **StreamReader Constructor** - Detects StreamReader creation with user input
+10. **DirectoryInfo Constructor** - Detects DirectoryInfo creation with user input
+11. **FileInfo Constructor** - Detects FileInfo creation with user input
+
