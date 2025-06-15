@@ -77,3 +77,21 @@
 - Weak token generation using DateTime/GUID
 - Missing session regeneration after password changes
 - Custom session managers with security flaws
+
+## 🛎️ Weak Cryptography Rules:
+
+### JSON Rules Coverage:
+The rules detect 12 different types of cryptographic vulnerabilities:
+
+1. **MD5 Hash Algorithm** - Detects various MD5 usage patterns
+2. **SHA-1 Hash Algorithm** - Identifies deprecated SHA-1 usage
+3. **DES Encryption** - Finds weak DES encryption usage
+4. **3DES/TripleDES** - Detects deprecated 3DES usage
+5. **RC2 Encryption** - Identifies weak RC2 algorithm usage
+6. **Weak RSA Key Sizes** - Detects RSA keys < 2048 bits
+7. **Insecure Random Generation** - Finds System.Random usage for crypto
+8. **Weak AES Key Sizes** - Detects AES keys < 256 bits
+9. **ECB Mode Usage** - Identifies insecure ECB cipher mode
+10. **Hardcoded Cryptographic Keys** - Finds hardcoded keys/passwords
+11. **Weak PBKDF2 Iterations** - Detects insufficient iteration counts
+12. **Insecure SSL/TLS Protocols** - Finds deprecated protocol versions
