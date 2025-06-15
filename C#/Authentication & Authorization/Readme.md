@@ -138,3 +138,20 @@
 10. **DirectoryInfo Constructor** - Detects DirectoryInfo creation with user input
 11. **FileInfo Constructor** - Detects FileInfo creation with user input
 
+# 🛎️ Deserialization Vulnerabilities
+
+1. **Critical Severity:**
+   - `BinaryFormatter` - Extremely dangerous, can execute arbitrary code
+   - `SoapFormatter` - Similar risks to BinaryFormatter
+   - `LosFormatter` - Used in ASP.NET, highly vulnerable
+   - `ObjectStateFormatter` - Another ASP.NET formatter with similar risks
+
+2. **High Severity:**
+   - `NetDataContractSerializer` - Can be exploited with crafted payloads
+   - `Newtonsoft.Json` with `TypeNameHandling` - Allows type confusion attacks
+
+3. **Medium Severity:**
+   - `JavaScriptSerializer` - Legacy serializer with potential issues
+   - `XmlSerializer` - Can be vulnerable to XXE and other XML attacks
+   - Unsafe `JsonConvert.DeserializeObject` calls
+   - `MessagePack` deserialization
