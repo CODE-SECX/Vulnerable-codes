@@ -1,3 +1,19 @@
+## Authorization Vulnerability Rules:
+
+## Detection Rules Coverage:
+
+1. **Missing Authorization Attribute** - Detects methods without `[Authorize]` or `[AllowAnonymous]`
+2. **Hardcoded Authorization Bypass** - Finds hardcoded conditions that always grant access
+3. **Insecure Direct Object Reference** - Identifies object access without authorization checks
+4. **Missing CSRF Protection** - Detects POST/PUT/DELETE without anti-forgery tokens
+5. **Weak Role-Based Authorization** - Finds overly permissive role assignments
+6. **Elevation of Privilege Risk** - Detects privilege modification without proper checks
+7. **Missing Input Validation** - Finds authorization checks without input validation
+8. **Insecure AllowAnonymous Usage** - Identifies inappropriate anonymous access
+9. **Authorization Based on Client Data** - Detects decisions based on client-controlled data
+10. **Missing API Authorization** - Finds API endpoints without proper protection
+
+
 ## Session Management Vulnerability Rules:
 
 ### **High Severity Issues:**
