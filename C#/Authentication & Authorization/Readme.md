@@ -80,18 +80,24 @@
 
 ## 🛎️ Weak Cryptography Rules:
 
-### JSON Rules Coverage:
-The rules detect 12 different types of cryptographic vulnerabilities:
+1. **MD5 Hash Algorithm**
+2. **SHA-1 Hash Algorithm**
+3. **DES Encryption**
+4. **3DES / TripleDES**
+5. **RC2 Encryption**
+6. **Weak RSA Key Sizes (< 2048 bits)**
+7. **Weak DSA Key Sizes** 
+8. **Insecure Random Generation (System.Random for crypto)**
+9. **Weak AES Key Sizes (< 256 bits)**
+10. **ECB Cipher Mode**
+11. **Hardcoded Cryptographic Keys or Secrets**
+12. **Weak PBKDF2 Iteration Count**
+13. **Insecure SSL/TLS Protocols (e.g., SSL 2.0, 3.0, TLS 1.0, 1.1)**
+14. **Use of Obsolete or Broken Algorithms (e.g., HMACMD5)** 
+15. **Custom or Homegrown Cryptographic Implementations** 
+16. **Static IVs or Predictable IVs for Symmetric Encryption** 
+17. **Insufficient Key Derivation Practices (e.g., no salt)** 
+18. **Use of SHA-2 Without HMAC for Authentication** 
+19. **Use of Deprecated .NET APIs (e.g., CryptoServiceProvider)** 
+20. **Lack of Authenticated Encryption (e.g., AES without GCM or HMAC)** 
 
-1. **MD5 Hash Algorithm** - Detects various MD5 usage patterns
-2. **SHA-1 Hash Algorithm** - Identifies deprecated SHA-1 usage
-3. **DES Encryption** - Finds weak DES encryption usage
-4. **3DES/TripleDES** - Detects deprecated 3DES usage
-5. **RC2 Encryption** - Identifies weak RC2 algorithm usage
-6. **Weak RSA Key Sizes** - Detects RSA keys < 2048 bits
-7. **Insecure Random Generation** - Finds System.Random usage for crypto
-8. **Weak AES Key Sizes** - Detects AES keys < 256 bits
-9. **ECB Mode Usage** - Identifies insecure ECB cipher mode
-10. **Hardcoded Cryptographic Keys** - Finds hardcoded keys/passwords
-11. **Weak PBKDF2 Iterations** - Detects insufficient iteration counts
-12. **Insecure SSL/TLS Protocols** - Finds deprecated protocol versions
