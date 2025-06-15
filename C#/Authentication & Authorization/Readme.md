@@ -1,4 +1,4 @@
-## 🛎️ Authentication Vulnerability Rules:
+# 🛎️ Authentication Vulnerability Rules:
 
 ### Coverage Areas:
 
@@ -17,7 +17,7 @@
 
 
 
-## 🛎️ Authorization Vulnerability Rules:
+# 🛎️ Authorization Vulnerability Rules:
 
 ### Detection Rules Coverage:
 
@@ -33,7 +33,7 @@
 10. **Missing API Authorization** - Finds API endpoints without proper protection
 
 
-## 🛎️ Session Management Vulnerability Rules:
+# 🛎️ Session Management Vulnerability Rules:
 
 ### **High Severity Issues:**
 1. **Insecure Session Cookie Configuration** - Missing HttpOnly, Secure, SameSite flags
@@ -78,7 +78,10 @@
 - Missing session regeneration after password changes
 - Custom session managers with security flaws
 
-## 🛎️ Weak Cryptography Rules:
+# 🛎️ Cryptographic Vulnerabilities
+
+
+## Weak Cryptography Rules:
 
 1. **MD5 Hash Algorithm**
 2. **SHA-1 Hash Algorithm**
@@ -100,4 +103,24 @@
 18. **Use of SHA-2 Without HMAC for Authentication** 
 19. **Use of Deprecated .NET APIs (e.g., CryptoServiceProvider)** 
 20. **Lack of Authenticated Encryption (e.g., AES without GCM or HMAC)** 
+
+
+
+## Key Management Vulnerability Rules:
+
+1. **Hardcoded Private Keys in Code** - Detects embedded certificates and private keys
+2. **Hardcoded API Keys and Secrets** - Finds API keys, tokens, and secrets in source code
+3. **Insecure Key Storage in Memory** - Identifies keys stored in regular strings/arrays
+4. **Key Derivation Without Salt** - Detects PBKDF2/key derivation without proper salt
+5. **Insecure Key Exchange Implementation** - Finds weak key exchange implementations
+6. **Missing Key Rotation Implementation** - Identifies static/const key usage
+7. **Insecure Key Transmission** - Detects keys sent over potentially insecure channels
+8. **Weak Key Generation Entropy** - Finds use of System.Random for cryptographic keys
+9. **Insecure Key Backup and Recovery** - Detects plaintext key backup to files
+10. **Missing Key Validation** - Identifies crypto operations without key validation
+11. **Insecure Key Derivation Function Usage** - Finds deprecated key derivation methods
+12. **Improper Key Lifecycle Management** - Detects missing 'using' statements for crypto objects
+13. **Certificate Validation Bypass** - Identifies bypassed certificate validation
+14. **Key Material in Exception Messages** - Finds keys exposed in error messages/logs
+15. **Insecure Key Agreement Protocol** - Detects unauthenticated key agreement implementations
 
