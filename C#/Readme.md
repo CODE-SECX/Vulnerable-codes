@@ -155,3 +155,12 @@
    - `XmlSerializer` - Can be vulnerable to XXE and other XML attacks
    - Unsafe `JsonConvert.DeserializeObject` calls
    - `MessagePack` deserialization
+
+# 🛎️ XML Vulnerabilities
+
+1. **XXE (XML External Entity) Attacks** - The most critical XML vulnerability
+2. **XML Bomb/Billion Laughs Attacks** - DoS through exponential entity expansion
+3. **Unsafe XML Deserialization** - Potential for various injection attacks
+4. **XSLT Processing Vulnerabilities** - XXE through stylesheets
+5. **XML Schema Validation Issues** - XXE through schema imports
+
