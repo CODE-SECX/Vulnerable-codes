@@ -164,3 +164,31 @@
 4. **XSLT Processing Vulnerabilities** - XXE through stylesheets
 5. **XML Schema Validation Issues** - XXE through schema imports
 
+# 🛎️ Configuration & Environment
+
+## Information Disclosure
+
+1. **Hardcoded Credentials** - Detects passwords, API keys, tokens, and connection strings hardcoded in source code
+2. **Detailed Exception Exposure** - Finds cases where exception details are exposed to users
+3. **Debug Information in Production** - Identifies debug statements containing sensitive data
+4. **SQL Connection String Exposure** - Detects connection strings with embedded credentials
+5. **Sensitive Data in Logs** - Finds logging statements that include sensitive information
+6. **Configuration Secrets in Code** - Detects hardcoded configuration values with sensitive data
+7. **Detailed Error Messages in APIs** - Identifies API responses exposing internal error details
+8. **Directory/File Path Exposure** - Detects code that might expose file system information
+
+## Security Misconfiguration :
+
+1. **Debug Mode in Production** - Detects debug settings enabled in production environments
+2. **Insecure SSL/TLS Configuration** - Finds weak TLS settings and disabled certificate validation
+3. **Insecure HTTP Headers** - Identifies missing or misconfigured security headers
+4. **Weak Authentication Configuration** - Detects weak password policies and authentication settings
+5. **Insecure Session Configuration** - Finds insecure session and cookie settings
+6. **Insecure CORS Configuration** - Identifies overly permissive CORS policies
+7. **Insecure Database Connection** - Detects unencrypted or insecure database connections
+8. **Insecure Logging Configuration** - Finds logging configs that expose sensitive data
+9. **Insecure API Configuration** - Identifies APIs with missing authentication/authorization
+10. **Insecure Cryptographic Configuration** - Detects weak crypto algorithms and settings
+11. **Insecure ViewState Configuration** - Finds Web Forms ViewState security issues
+12. **Insecure File Upload Configuration** - Identifies dangerous file upload settings
+
