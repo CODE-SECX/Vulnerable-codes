@@ -204,3 +204,18 @@
 8. **Authentication Token Logging** - Detects JWT, API keys, bearer tokens in logs
 9. **Session Data Logging** - Catches session information being logged
 10. **Unstructured Sensitive Data Logging** - Detects dangerous string interpolation in logs
+
+
+ # 🛎️ Web Application Security
+
+## Cross-Site Request Forgery (CSRF)
+
+1. Missing AntiForgeryToken in POST Actions
+2. Missing AntiForgeryToken in PUT Actions
+3. Missing AntiForgeryToken in DELETE Actions
+4. Missing AntiForgeryToken in PATCH Actions
+5. Missing CSRF Token in Forms
+6. Missing CSRF Protection in API Controllers
+7. Missing AutoValidateAntiforgeryToken Global Filter
+8. Disabled CSRF Validation
+9. Missing SameSite Cookie Configuration
