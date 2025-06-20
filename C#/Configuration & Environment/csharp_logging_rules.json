@@ -1,0 +1,151 @@
+[
+  {
+    "name": "Sensitive Data in Log Messages",
+    "description": "Detects logging statements that may contain sensitive information like passwords, tokens, SSNs, credit cards, or personal data",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|console\\.(write|writeline)|system\\.diagnostics\\.(debug|trace)\\.(write|writeline)|_logger\\.).*?(password|pwd|pass|token|secret|key|ssn|social.security|credit.card|ccn|cvv|pin|auth|bearer|jwt|session|cookie|private|confidential|sensitive|personal|pii|email|phone|address|dob|birth)",
+    "category": "Information Disclosure",
+    "recommendation": "Avoid logging sensitive information. Use placeholders, sanitize data, or exclude sensitive fields from logs. Consider using structured logging with field exclusion.",
+    "secure_code_example": "// Insecure\n_logger.LogInformation($\"User login: {username} with password: {password}\");\n\n// Secure\n_logger.LogInformation(\"User login attempt for user: {Username}\", username);\n// Or use structured logging with sanitization\n_logger.LogInformation(\"Login attempt\", new { Username = username, Success = loginResult });",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure",
+      "https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/"
+    ]
+  },
+  {
+    "name": "Exception Stack Trace Logging",
+    "description": "Detects logging of full exception details including stack traces which may expose sensitive system information",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(exception|error|err).*\\.(tostring|stacktrace|message|innerexception)",
+    "category": "Information Disclosure",
+    "recommendation": "Log only necessary exception information. Avoid logging full stack traces in production. Use exception.Message instead of exception.ToString() for user-facing logs.",
+    "secure_code_example": "// Insecure\n_logger.LogError($\"Error occurred: {ex.ToString()}\");\n\n// Secure\n_logger.LogError(ex, \"An error occurred during user registration\");\n// Or log only message for user-facing logs\n_logger.LogWarning(\"Registration failed: {ErrorMessage}\", ex.Message);",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure",
+      "https://docs.microsoft.com/en-us/dotnet/core/extensions/logging-best-practices"
+    ]
+  },
+  {
+    "name": "SQL Query Logging",
+    "description": "Detects logging of SQL queries which may contain sensitive data or expose database structure",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(select|insert|update|delete|create|drop|alter|grant|revoke).*?(from|into|set|where|values)",
+    "category": "Information Disclosure",
+    "recommendation": "Avoid logging raw SQL queries. If necessary, sanitize queries by removing sensitive parameters or use parameterized query logging.",
+    "secure_code_example": "// Insecure\n_logger.LogDebug($\"Executing query: SELECT * FROM Users WHERE Password = '{password}'\");\n\n// Secure\n_logger.LogDebug(\"Executing user authentication query for user: {UserId}\", userId);\n// Or log query template without parameters\n_logger.LogDebug(\"Query template: {QueryTemplate}\", \"SELECT * FROM Users WHERE UserId = @UserId\");",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A1_2017-Injection",
+      "https://docs.microsoft.com/en-us/ef/core/logging-events-diagnostics/"
+    ]
+  },
+  {
+    "name": "Request/Response Body Logging",
+    "description": "Detects logging of HTTP request or response bodies which may contain sensitive data",
+    "code_language": "C#",
+    "framework": "ASP.NET",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(request|response)\\.(body|content|form|headers)",
+    "category": "Information Disclosure",
+    "recommendation": "Avoid logging full request/response bodies. Log only necessary headers and exclude sensitive data. Use structured logging with field filtering.",
+    "secure_code_example": "// Insecure\n_logger.LogInformation($\"Request body: {await request.ReadAsStringAsync()}\");\n\n// Secure\n_logger.LogInformation(\"API request received\", new { \n    Endpoint = request.Path, \n    Method = request.Method,\n    ContentLength = request.ContentLength \n});",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure",
+      "https://docs.microsoft.com/en-us/aspnet/core/fundamentals/http-logging/"
+    ]
+  },
+  {
+    "name": "File Path Disclosure in Logs",
+    "description": "Detects logging statements that may expose sensitive file paths or directory structures",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*([c-z]:\\\\|/[a-z]+/|\\\\\\\\|file://|filepath|filename|directory)",
+    "category": "Information Disclosure",
+    "recommendation": "Avoid logging full file paths. Use relative paths, filenames only, or sanitized path information in logs.",
+    "secure_code_example": "// Insecure\n_logger.LogError($\"Failed to read file: {fullFilePath}\");\n\n// Secure\n_logger.LogError(\"Failed to read configuration file: {FileName}\", Path.GetFileName(fullFilePath));\n// Or use a sanitized relative path\n_logger.LogError(\"File operation failed in directory: {RelativeDir}\", GetRelativePath(fullFilePath));",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"
+    ]
+  },
+  {
+    "name": "Connection String Logging",
+    "description": "Detects logging of database connection strings which may contain credentials",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(connectionstring|connection.string|server=|database=|uid=|user.id=|password=|pwd=|integrated.security)",
+    "category": "Information Disclosure",
+    "recommendation": "Never log connection strings. Log only database name or server name if necessary for debugging.",
+    "secure_code_example": "// Insecure\n_logger.LogDebug($\"Using connection: {connectionString}\");\n\n// Secure\nvar builder = new SqlConnectionStringBuilder(connectionString);\n_logger.LogDebug(\"Connecting to database: {DatabaseName} on server: {ServerName}\", \n    builder.InitialCatalog, builder.DataSource);",
+    "severity": "Critical",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication",
+      "https://docs.microsoft.com/en-us/dotnet/api/system.data.sqlclient.sqlconnectionstringbuilder"
+    ]
+  },
+  {
+    "name": "Debug Information in Production Logs",
+    "description": "Detects debug-level logging that might expose sensitive information in production",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*debug.*(variable|parameter|state|object|json|xml|serialize)",
+    "category": "Information Disclosure",
+    "recommendation": "Ensure debug logging is disabled in production or carefully review debug messages for sensitive data exposure.",
+    "secure_code_example": "// Potentially insecure in production\n_logger.LogDebug($\"User object: {JsonConvert.SerializeObject(user)}\");\n\n// Secure - conditional debug logging\n#if DEBUG\n_logger.LogDebug(\"User state: {UserState}\", GetSanitizedUserInfo(user));\n#endif\n// Or use log level configuration\nif (_logger.IsEnabled(LogLevel.Debug))\n    _logger.LogDebug(\"Processing user: {UserId}\", user.Id);",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/",
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"
+    ]
+  },
+  {
+    "name": "Authentication Token Logging",
+    "description": "Detects logging of authentication tokens, JWT tokens, or API keys",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(bearer|jwt|token|apikey|api.key|authorization|auth.header)",
+    "category": "Information Disclosure",
+    "recommendation": "Never log authentication tokens or API keys. Log only token metadata like expiration time or token type if needed.",
+    "secure_code_example": "// Insecure\n_logger.LogInformation($\"Received token: {authToken}\");\n\n// Secure\n_logger.LogInformation(\"Authentication token received for user: {UserId}\", userId);\n// Or log token metadata only\nvar tokenHandler = new JwtSecurityTokenHandler();\nvar jwt = tokenHandler.ReadJwtToken(token);\n_logger.LogDebug(\"JWT token expires at: {ExpirationTime}\", jwt.ValidTo);",
+    "severity": "Critical",
+    "references": [
+      "https://owasp.org/www-project-top-ten/2017/A2_2017-Broken_Authentication",
+      "https://jwt.io/introduction/"
+    ]
+  },
+  {
+    "name": "Session Data Logging",
+    "description": "Detects logging of session data which may contain sensitive user information",
+    "code_language": "C#",
+    "framework": "ASP.NET",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(session|httpcontext\\.session|session\\[|sessionstate)",
+    "category": "Information Disclosure",
+    "recommendation": "Avoid logging session data. Log only session metadata like session ID (hashed) or session state if necessary.",
+    "secure_code_example": "// Insecure\n_logger.LogDebug($\"Session data: {JsonConvert.SerializeObject(HttpContext.Session)}\");\n\n// Secure\n_logger.LogDebug(\"Session established for user session: {HashedSessionId}\", \n    HashSessionId(HttpContext.Session.Id));\n// Or log session metadata only\n_logger.LogInformation(\"User session active, expires: {SessionExpiry}\", \n    HttpContext.Session.GetString(\"ExpiryTime\"));",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state",
+      "https://owasp.org/www-project-top-ten/2017/A3_2017-Sensitive_Data_Exposure"
+    ]
+  },
+  {
+    "name": "Unstructured Sensitive Data Logging",
+    "description": "Detects potentially dangerous string interpolation or concatenation in logging that might expose sensitive data",
+    "code_language": "C#",
+    "framework": "General",
+    "regex": "(?i)(logger?\\.|log\\.|_logger\\.).*(\\$\"|string\\.(format|concat)|\\+.*\\+)",
+    "category": "Information Disclosure",
+    "recommendation": "Use structured logging with parameterized messages instead of string interpolation to better control what data is logged.",
+    "secure_code_example": "// Potentially insecure\n_logger.LogInformation($\"User {user.Name} performed action {action} with data {sensitiveData}\");\n\n// Secure - structured logging\n_logger.LogInformation(\"User performed action\", new { \n    UserId = user.Id, \n    Action = action,\n    Timestamp = DateTime.UtcNow \n});\n// Or parameterized logging\n_logger.LogInformation(\"User {UserId} performed {Action}\", user.Id, action);",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/fundamentals/logging/",
+      "https://github.com/serilog/serilog/wiki/Structured-Data"
+    ]
+  }
+]
