@@ -192,3 +192,15 @@
 11. **Insecure ViewState Configuration** - Finds Web Forms ViewState security issues
 12. **Insecure File Upload Configuration** - Identifies dangerous file upload settings
 
+## Logging & Monitoring:
+
+1. **Sensitive Data in Log Messages** - Detects passwords, tokens, SSNs, credit cards, etc. being logged
+2. **Exception Stack Trace Logging** - Catches full exception details that may expose system info
+3. **SQL Query Logging** - Identifies SQL queries with sensitive data being logged
+4. **Request/Response Body Logging** - Detects HTTP content logging that may contain sensitive data
+5. **File Path Disclosure** - Catches file paths that might expose directory structure
+6. **Connection String Logging** - Critical rule to detect database credentials in logs
+7. **Debug Information in Production** - Identifies debug logs that might expose sensitive data
+8. **Authentication Token Logging** - Detects JWT, API keys, bearer tokens in logs
+9. **Session Data Logging** - Catches session information being logged
+10. **Unstructured Sensitive Data Logging** - Detects dangerous string interpolation in logs
