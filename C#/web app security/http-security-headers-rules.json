@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Missing X-Frame-Options Header",
+    "description": "Detects missing X-Frame-Options header configuration which can lead to clickjacking attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*x-frame-options)(?!.*frameoptions)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add X-Frame-Options header with DENY or SAMEORIGIN value to prevent clickjacking attacks",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"X-Frame-Options\", \"DENY\");\n    await next();\n});",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-community/attacks/Clickjacking",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options"
+    ]
+  },
+  {
+    "name": "Missing X-Content-Type-Options Header",
+    "description": "Detects missing X-Content-Type-Options header which prevents MIME type sniffing attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*x-content-type-options)(?!.*contenttypeoptions)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add X-Content-Type-Options header with 'nosniff' value to prevent MIME type sniffing attacks",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"X-Content-Type-Options\", \"nosniff\");\n    await next();\n});",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#x-content-type-options",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options"
+    ]
+  },
+  {
+    "name": "Missing Strict-Transport-Security Header",
+    "description": "Detects missing HTTP Strict Transport Security (HSTS) header configuration",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*strict-transport-security)(?!.*hsts)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Strict-Transport-Security header to enforce HTTPS connections and prevent protocol downgrade attacks",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains\");\n    await next();\n});",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#http-strict-transport-security",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"
+    ]
+  },
+  {
+    "name": "Missing Content-Security-Policy Header",
+    "description": "Detects missing Content Security Policy header which prevents XSS and data injection attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*content-security-policy)(?!.*csp)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Implement Content Security Policy header to prevent XSS attacks and control resource loading",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Content-Security-Policy\", \"default-src 'self'; script-src 'self'\");\n    await next();\n});",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#content-security-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP"
+    ]
+  },
+  {
+    "name": "Weak Content-Security-Policy Configuration",
+    "description": "Detects Content Security Policy with unsafe directives like 'unsafe-inline' or 'unsafe-eval'",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:content-security-policy|csp)(?:[^\\n]*?)(?:'unsafe-inline'|'unsafe-eval'|\\*)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Remove unsafe CSP directives and use nonces or hashes for inline scripts/styles",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Content-Security-Policy\", \"default-src 'self'; script-src 'self' 'nonce-randomvalue'\");\n    await next();\n});",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#content-security-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP"
+    ]
+  },
+  {
+    "name": "Missing Referrer-Policy Header",
+    "description": "Detects missing Referrer-Policy header which controls referrer information sent with requests",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*referrer-policy)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Referrer-Policy header to control referrer information leakage",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Referrer-Policy\", \"strict-origin-when-cross-origin\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#referrer-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy"
+    ]
+  },
+  {
+    "name": "Missing Permissions-Policy Header",
+    "description": "Detects missing Permissions-Policy (formerly Feature-Policy) header configuration",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*permissions-policy)(?!.*feature-policy)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Permissions-Policy header to control browser features and APIs",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Permissions-Policy\", \"camera=(), microphone=(), geolocation=()\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#permissions-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Permissions-Policy"
+    ]
+  },
+  {
+    "name": "Insecure X-XSS-Protection Header",
+    "description": "Detects X-XSS-Protection header with value '1' which can be bypassed",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:x-xss-protection|xssprotection)(?:[^\\n]*?)(?:[\"']1[\"']|\\b1\\b)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Use X-XSS-Protection: 0 to disable legacy XSS filter or implement proper CSP instead",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"X-XSS-Protection\", \"0\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#x-xss-protection",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection"
+    ]
+  },
+  {
+    "name": "Server Information Disclosure",
+    "description": "Detects Server header that reveals server information",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:server|x-powered-by)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)(?:[^\\n]*?)(?:asp\\.net|iis|kestrel|microsoft)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Remove or customize Server header to prevent information disclosure",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Remove(\"Server\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#server",
+      "https://owasp.org/www-community/Security_Headers"
+    ]
+  },
+  {
+    "name": "Missing Cache-Control Security Headers",
+    "description": "Detects missing or insecure Cache-Control headers for sensitive content",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:login|password|token|admin|secure)(?:[^\\n]*?)(?:actionresult|controller|action)(?:[^\\n]*?)(?!.*cache-control)(?!.*no-cache)(?!.*no-store)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Cache-Control headers with 'no-cache, no-store, must-revalidate' for sensitive content",
+    "secure_code_example": "context.Response.Headers.Add(\"Cache-Control\", \"no-cache, no-store, must-revalidate\");\ncontext.Response.Headers.Add(\"Pragma\", \"no-cache\");\ncontext.Response.Headers.Add(\"Expires\", \"0\");",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#cache-control",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control"
+    ]
+  },
+  {
+    "name": "Permissive CORS Configuration",
+    "description": "Detects CORS configuration allowing all origins (*) which can be dangerous",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:addcors|cors|allowanyorigin|withorigins)(?:[^\\n]*?)(?:\\*|allowanyorigin)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Specify exact allowed origins instead of using wildcard (*) for CORS configuration",
+    "secure_code_example": "services.AddCors(options => {\n    options.AddPolicy(\"AllowSpecificOrigin\", builder => {\n        builder.WithOrigins(\"https://example.com\")\n               .AllowAnyMethod()\n               .AllowAnyHeader();\n    });\n});",
+    "severity": "High",
+    "references": [
+      "https://owasp.org/www-community/attacks/CORS_OriginHeaderScrutiny",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+    ]
+  },
+  {
+    "name": "Missing X-Permitted-Cross-Domain-Policies Header",
+    "description": "Detects missing X-Permitted-Cross-Domain-Policies header for Flash/PDF policy control",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*x-permitted-cross-domain-policies)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add X-Permitted-Cross-Domain-Policies header with 'none' value to restrict cross-domain policies",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"X-Permitted-Cross-Domain-Policies\", \"none\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#x-permitted-cross-domain-policies",
+      "https://www.adobe.com/devnet-docs/acrobatetk/tools/AppSec/xdomain.html"
+    ]
+  },
+  {
+    "name": "Missing Cross-Origin-Embedder-Policy Header",
+    "description": "Detects missing Cross-Origin-Embedder-Policy header for enhanced security isolation",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*cross-origin-embedder-policy)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Cross-Origin-Embedder-Policy header to enhance security isolation",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Cross-Origin-Embedder-Policy\", \"require-corp\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#cross-origin-embedder-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Embedder-Policy"
+    ]
+  },
+  {
+    "name": "Missing Cross-Origin-Opener-Policy Header",
+    "description": "Detects missing Cross-Origin-Opener-Policy header for window isolation",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*cross-origin-opener-policy)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Cross-Origin-Opener-Policy header to isolate browsing context",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Cross-Origin-Opener-Policy\", \"same-origin\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#cross-origin-opener-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy"
+    ]
+  },
+  {
+    "name": "Missing Cross-Origin-Resource-Policy Header",
+    "description": "Detects missing Cross-Origin-Resource-Policy header for resource access control",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:app\\.use|configure|startup|middleware)(?:[^\\n]*?)(?!.*cross-origin-resource-policy)(?:[^\\n]*?)(?:response\\.headers|addheader|headers\\.add)",
+    "category": "HTTP Security Headers",
+    "recommendation": "Add Cross-Origin-Resource-Policy header to control cross-origin resource access",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Cross-Origin-Resource-Policy\", \"same-origin\");\n    await next();\n});",
+    "severity": "Low",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#cross-origin-resource-policy",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Resource-Policy"
+    ]
+  },
+  {
+    "name": "Weak HSTS Configuration",
+    "description": "Detects Strict-Transport-Security header with insufficient max-age or missing includeSubDomains",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "(?i)(?:strict-transport-security|hsts)(?:[^\\n]*?)(?:max-age=(?:[0-9]{1,6}|[0-9]{7}(?![0-9]))(?!.*includesubdomains)|(?!.*max-age))",
+    "category": "HTTP Security Headers",
+    "recommendation": "Use HSTS with max-age of at least 31536000 (1 year) and includeSubDomains directive",
+    "secure_code_example": "app.Use(async (context, next) => {\n    context.Response.Headers.Add(\"Strict-Transport-Security\", \"max-age=31536000; includeSubDomains; preload\");\n    await next();\n});",
+    "severity": "Medium",
+    "references": [
+      "https://owasp.org/www-project-secure-headers/#http-strict-transport-security",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security"
+    ]
+  }
+]
