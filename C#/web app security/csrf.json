@@ -1,0 +1,152 @@
+[
+  {
+    "name": "Missing AntiForgeryToken in POST Actions",
+    "description": "Detects POST action methods without ValidateAntiForgeryToken attribute, which makes them vulnerable to CSRF attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\[HttpPost\\]\\s*(?!.*\\[ValidateAntiForgeryToken\\])(?=\\s*public\\s+(?:ActionResult|IActionResult|Task<(?:ActionResult|IActionResult)>))",
+    "category": "CSRF",
+    "recommendation": "Add [ValidateAntiForgeryToken] attribute to all POST action methods or use global CSRF protection",
+    "secure_code_example": "[HttpPost]\n[ValidateAntiForgeryToken]\npublic ActionResult Create(UserModel model)\n{\n    // Action implementation\n    return View(model);\n}",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing AntiForgeryToken in PUT Actions",
+    "description": "Detects PUT action methods without ValidateAntiForgeryToken attribute, which makes them vulnerable to CSRF attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\[HttpPut\\]\\s*(?!.*\\[ValidateAntiForgeryToken\\])(?=\\s*public\\s+(?:ActionResult|IActionResult|Task<(?:ActionResult|IActionResult)>))",
+    "category": "CSRF",
+    "recommendation": "Add [ValidateAntiForgeryToken] attribute to all PUT action methods or use global CSRF protection",
+    "secure_code_example": "[HttpPut]\n[ValidateAntiForgeryToken]\npublic ActionResult Update(int id, UserModel model)\n{\n    // Action implementation\n    return View(model);\n}",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing AntiForgeryToken in DELETE Actions",
+    "description": "Detects DELETE action methods without ValidateAntiForgeryToken attribute, which makes them vulnerable to CSRF attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\[HttpDelete\\]\\s*(?!.*\\[ValidateAntiForgeryToken\\])(?=\\s*public\\s+(?:ActionResult|IActionResult|Task<(?:ActionResult|IActionResult)>))",
+    "category": "CSRF",
+    "recommendation": "Add [ValidateAntiForgeryToken] attribute to all DELETE action methods or use global CSRF protection",
+    "secure_code_example": "[HttpDelete]\n[ValidateAntiForgeryToken]\npublic ActionResult Delete(int id)\n{\n    // Action implementation\n    return Json(new { success = true });\n}",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing AntiForgeryToken in PATCH Actions",
+    "description": "Detects PATCH action methods without ValidateAntiForgeryToken attribute, which makes them vulnerable to CSRF attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\[HttpPatch\\]\\s*(?!.*\\[ValidateAntiForgeryToken\\])(?=\\s*public\\s+(?:ActionResult|IActionResult|Task<(?:ActionResult|IActionResult)>))",
+    "category": "CSRF",
+    "recommendation": "Add [ValidateAntiForgeryToken] attribute to all PATCH action methods or use global CSRF protection",
+    "secure_code_example": "[HttpPatch]\n[ValidateAntiForgeryToken]\npublic ActionResult PartialUpdate(int id, JsonPatchDocument<UserModel> patch)\n{\n    // Action implementation\n    return Ok();\n}",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing CSRF Token in Forms",
+    "description": "Detects HTML forms without anti-forgery token helpers, making them vulnerable to CSRF attacks",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "@using\\s*\\(Html\\.BeginForm\\((?:[^)]*\\))\\)(?!.*@Html\\.AntiForgeryToken\\(\\))",
+    "category": "CSRF",
+    "recommendation": "Add @Html.AntiForgeryToken() helper inside all forms that perform state-changing operations",
+    "secure_code_example": "@using (Html.BeginForm(\"Create\", \"User\", FormMethod.Post))\n{\n    @Html.AntiForgeryToken()\n    <!-- Form fields -->\n    <input type=\"submit\" value=\"Create\" />\n}",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing CSRF Protection in API Controllers",
+    "description": "Detects API controllers without proper CSRF protection mechanisms",
+    "code_language": "C#",
+    "framework": "ASP.NET Web API/Core",
+    "regex": "\\[ApiController\\]\\s*(?!.*\\[ValidateAntiForgeryToken\\])(?!.*\\[IgnoreAntiforgeryToken\\])(?=\\s*public\\s+class\\s+\\w+Controller)",
+    "category": "CSRF",
+    "recommendation": "Implement proper CSRF protection for API controllers using tokens, SameSite cookies, or custom headers",
+    "secure_code_example": "[ApiController]\n[ValidateAntiForgeryToken]\npublic class UsersController : ControllerBase\n{\n    [HttpPost]\n    public ActionResult<User> CreateUser(User user)\n    {\n        // Implementation\n        return Ok(user);\n    }\n}",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing AutoValidateAntiforgeryToken Global Filter",
+    "description": "Detects applications without global anti-forgery token validation",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "services\\.AddMvc\\(\\)(?!.*AddMvc\\(.*AutoValidateAntiforgeryTokenAttribute)",
+    "category": "CSRF",
+    "recommendation": "Configure global anti-forgery token validation in Startup.cs or Program.cs",
+    "secure_code_example": "services.AddMvc(options =>\n{\n    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());\n});",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Disabled CSRF Validation",
+    "description": "Detects explicitly disabled CSRF validation using IgnoreAntiforgeryToken attribute",
+    "code_language": "C#",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\[IgnoreAntiforgeryToken\\]",
+    "category": "CSRF",
+    "recommendation": "Avoid disabling CSRF protection unless absolutely necessary and implement alternative protection mechanisms",
+    "secure_code_example": "// Remove [IgnoreAntiforgeryToken] and use proper CSRF protection\n[HttpPost]\n[ValidateAntiForgeryToken]\npublic ActionResult Action()\n{\n    // Implementation\n    return View();\n}",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  },
+  {
+    "name": "Missing SameSite Cookie Configuration",
+    "description": "Detects applications without proper SameSite cookie configuration for CSRF protection",
+    "code_language": "C#",
+    "framework": "ASP.NET Core",
+    "regex": "services\\.AddAntiforgery\\((?!.*SameSite)",
+    "category": "CSRF",
+    "recommendation": "Configure SameSite cookie policy for enhanced CSRF protection",
+    "secure_code_example": "services.AddAntiforgery(options =>\n{\n    options.Cookie.SameSite = SameSiteMode.Strict;\n    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;\n});",
+    "severity": "Medium",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/core/security/anti-request-forgery",
+      "https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite"
+    ]
+  },
+  {
+    "name": "AJAX Requests Without CSRF Token",
+    "description": "Detects AJAX requests in JavaScript/jQuery without CSRF token headers",
+    "code_language": "JavaScript",
+    "framework": "ASP.NET MVC/Core",
+    "regex": "\\$\\.ajax\\(\\{[^}]*type\\s*:\\s*['\"](?:POST|PUT|DELETE|PATCH)['\"][^}]*\\}\\)(?!.*headers[^}]*RequestVerificationToken)",
+    "category": "CSRF",
+    "recommendation": "Include anti-forgery token in AJAX request headers or form data",
+    "secure_code_example": "$.ajaxSetup({\n    beforeSend: function(xhr, settings) {\n        if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {\n            xhr.setRequestHeader('RequestVerificationToken', $('input[name=\"__RequestVerificationToken\"]').val());\n        }\n    }\n});",
+    "severity": "High",
+    "references": [
+      "https://docs.microsoft.com/en-us/aspnet/mvc/overview/security/xsrfcsrf-prevention-in-aspnet-mvc-and-web-pages",
+      "https://owasp.org/www-community/attacks/csrf"
+    ]
+  }
+]
