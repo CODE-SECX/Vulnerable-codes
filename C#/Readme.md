@@ -219,3 +219,20 @@
 7. Missing AutoValidateAntiforgeryToken Global Filter
 8. Disabled CSRF Validation
 9. Missing SameSite Cookie Configuration
+
+## **HTTP Security Headers Rules:**
+
+1. **Missing X-Frame-Options** - Prevents clickjacking attacks
+2. **Missing X-Content-Type-Options** - Prevents MIME type sniffing
+3. **Missing Strict-Transport-Security (HSTS)** - Enforces HTTPS connections
+4. **Missing Content-Security-Policy** - Prevents XSS and injection attacks
+5. **Weak CSP Configuration** - Detects unsafe CSP directives
+6. **Missing Referrer-Policy** - Controls referrer information leakage
+7. **Missing Permissions-Policy** - Controls browser features/APIs
+8. **Insecure X-XSS-Protection** - Detects bypassable XSS protection
+9. **Server Information Disclosure** - Prevents server fingerprinting
+10. **Missing Cache-Control for Sensitive Content** - Prevents caching of sensitive data
+11. **Permissive CORS Configuration** - Detects dangerous wildcard origins
+12. **Missing Cross-Origin Headers** - Various cross-origin security policies
+13. **Weak HSTS Configuration** - Insufficient HSTS settings
+
